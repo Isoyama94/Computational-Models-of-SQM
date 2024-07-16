@@ -1,0 +1,164 @@
+
+	GCFBpack: Package of IIR Gammachirp filterbank
+			version 1.05
+
+
+	Copyright:	1997-1999, ATR Human Information Processing Lab. 
+
+	Authors : 	Toshio IRINO
+	          	Masashi UNOKI
+
+	Affiliation:  	ATR Human Information Processing Lab. 
+			2-2, Hikaridai Seika-cho Soraku-gun 
+			Kyoto, 619-0288, JAPAN
+
+	URL:     	http://www.hip.atr.co.jp/~irino
+			http://www.hip.atr.co.jp/~irino/GCFBpack.html
+
+	E-mail:   	irino@hip.atr.co.jp
+
+	Released on:	4 June, 1998
+			1 Feb.  1999 (Change this note only)
+
+
+
+INTRODUCTION:
+
+This is a package of MATLAB files for the IIR gammachirp filterbank. 
+See references for details of the gammachirp and its IIR implementation.
+
+
+INSTALL:
+
+0) Get the software from the Web page or anonymous FTP to ftp.hip.atr.co.jp.
+1) Unpack this package in either way:
+     a) gunzip GCFBpack_v????.tar.gz; tar xvf  GCFBpack_v????.tar
+     b) zcat GCFBpack_v????.tar.gz |  tar xvf -
+2) Add path of this directory in MATLAB.
+3) Execute "HowToUseGCFB" for an example.
+4) Modify HowToUseGCFB.m as you like.
+
+
+CONTENTS:
+
+AsymCmpCoef.m		: Parameters for MakeAsymCmpFilters.m
+ERB2Freq.m		: ERB to frequency conversion
+Fpeak2Fr.m		: Peak frequency to asymptotic frequency conversion
+Fr2Fpeak.m		: Asymptotic frequency to peak frequency conversion
+Freq2ERB.m		: Frequency to ERB conversion
+GCFB.m			: Main program of gammachirp filterbank 
+GCFBCntl.m		: Control procedure for GCFB
+GCFBInit.m		: Initialization for GCFB
+GammaChirp.m		: FIR gammachirp (gammatone when c=0)
+IIRfilter.m		: IIR filtering with sample by sample basis
+IIRfilter.c		: IIR filtering, compile with mex and mexopts.sh
+IIRfilter.mex4		: IIR filtering, mex-file on SUN4
+IIRfilter.mexsol	: IIR filtering, mex-file on SUN Solaris 
+IIRfilter.mexaxp	: IIR filtering, mex-file on DEC Alpha
+InvGCFB.m		: Inverse GCFB for signal resynthesis!
+MakeAsymCmpFilters.m	: Make coefficients for Asymmetric compensation filter
+MakeAsymCmpFilters.c	: MakeAsymCmpFilters, compile with mex and mexopts.sh
+MakeAsymCmpFilters.mex4	: MakeAsymCmpFilters, mex-file on SUN4
+MakeAsymCmpFilters.mexsol: MakeAsymCmpFilters, mex-file on SUN Solaris
+MakeAsymCmpFilters.mexaxp: MakeAsymCmpFilters, mex-file on DEC Alpha
+MakeERBFiltersB.m	: Make coefficients based on Slaney's IIR gammatone 
+MakeERBSinFiltersB.m	: Sine phase IIR gammatone
+MakeERBWin.m		: Make weighting function across channels
+MakeLI.m		: Make coefficients for leaky integrator
+OutMidCrct.m		: Correction for outer/middle ear transfer function
+OutMidCrctFilt.m	: FIR coefficients using remez algorithm
+complex.h		: c header for producing mex-files
+README_v????		: This file
+HowToUseGCFB.m		: Example file to learn usage
+
+
+BUGS:
+
+Numerical instability of the IIR filters defined by MakeAsymCmpFilters
+when fs is high (e.g., 48000 Hz) and fr is low (e.g, 100 Hz). It is a
+well-known problem when using IIR filters with limited precision of
+numerical calculation (Error ~ 10^(-14) in double precision). The
+asymmetric compensation filter should be an IIR filter for
+time-varying filtering.
+
+
+FIXED BUGS:
+
+1) Numerical instability of the IIR filters (MakeERBFiltersB,
+MakeERBSinFiltersB) when fs is high (e.g., 48000 Hz) and fr is low
+(e.g, 100 Hz).
+
+An FIR version of the gammatone (GammaChirp with c=0) is enabled in
+this version. Since the "fftfilt" is used, the processing speed is
+only half or one-third of the speed of the IIR gammatone. Another merit
+of using the FIR gammatone is that "n" value is not restricted to 4
+although "n=4" is still recommended.
+
+2) Numerical instability of the filter defined by MakeAsymCmpFilters.
+It seems to work properly in usual case but causes trouble when c=-2.
+
+There was a bug for numerical calculation in MakeAsymCmpFilters.c. 
+Fixed and recompiled.
+
+
+TIPS:
+
+The codes in this package have been developed on MATLAB. A part of
+them would work on a free software platform named "Octave" although we
+do not support the tuning-up.
+
+See http://bevo.che.wisc.edu/octave/ and ftp.che.wisc.edu.
+
+
+PROBLEMS
+
+The current version of the GCFB (v1.04) is not consistent with some of
+physiological observations.
+
+Several issues have already been raised:
+
+1) In the current implementation, the individual filters were all set
+on the basis of the auditory filter at the probe frequency of 2000 Hz.
+
+2) The formulation with the leaky integrator is restricted to an
+initial approximation of the parameter control since it does not
+include fast compression (Robles et al., 1976) and the compression
+function observed physiologically (for review, Giguere and Woodland,
+1994).
+
+
+ACKNOWLEDGMENTS:
+
+MakeERBFiltersB.m is based on Malcolm Slaney's "Auditory Toolbox"
+MATLAB code. This work has been supported by CREST (Core Research for
+Evolutional Science and Technology) of the Japan Science and
+Technology Corporation(JST).  The authors also wish to thank Roy
+D. Patterson of Cambridge Univ. for his continuous advice.
+
+
+REFERENCES:
+
+Giguere, C. and Woodland, P.C. (1994) "A computational model of the
+auditory periphery for speech and hearing research. I. Ascending
+path," J. Acoust. Soc. Am., 95, 331-342.
+
+Irino, T. and Patterson, R.D. (1997). "A time-domain, level-dependent
+auditory filter: the gammachirp," J. Acoust, Soc. Am., 101,
+pp.412-419 (Jan. 1997).
+
+Irino, T. and Unoki, M. (1997). "An efficient implementation of the
+gammachirp filter and its filterbank design," ATR Technical Report,
+TR-H-225 (14 July 97).
+
+Irino, T. and Unoki, M. (1998). "A time-domain, analysis/synthesis
+auditory filterbank using the gammachirp," IEEE ICASSP'98,VI ,
+pp. 3653-3656, Seattle, Washington, May 12-15, 1998.
+
+Robles, L., Rhode, W.S. and Geisler, C.D. (1976)" Transient response
+of the basilar membrane measured in squirrel monkeys using the
+Moessbauer effect," J. Acoust. Soc. Am., 59, 926-939.
+
+
+
+See also the web site:	http://www.hip.atr.co.jp/~irino
+

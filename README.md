@@ -9,6 +9,12 @@ The computational models of SQM (SQMs model) have the following directories:
 - `GUI`: This directory contains programs for Windows and Mac that can be run stand-alone, as well as source code to run using MATLAB.
 - `CUI`: This directory contains the source code to be executed using MATLAB. These programs are divided into those using the Gammatone filterbank and those using the Gammachirp filterbank. Within each directory, there is a `HowToUse` directory that contains instructions on how to use the programs.
 
+# Additional Information
+
+The Gammatone Filterbank (GTFB) and Gammachirp Filterbank (GCFB) used in this program, as well as the filters for the outer and middle ear, are based on those from a auditory image mode (AIM). For more details about AIM2006, visit the following URL:
+
+[AIM2006](https://www.acousticscale.org/wiki/index.php/AIM2006_Documentation)
+
 ## How to Use
 
 After downloading this repository, you just need to add the toolbox to the path of your MATLAB.
